@@ -1,0 +1,6 @@
+.idea
+*.pyc
+*.json
+test.py
+test*.py
+nni/
