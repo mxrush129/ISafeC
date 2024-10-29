@@ -77,9 +77,9 @@ examples = {
     5: Example(
         n_obs=2,
         u_dim=1,
-        D_zones=Zones('box', low=[-3, -3], up=[4, 4]),
-        I_zones=Zones('box', low=[-3, -3], up=[-1, -1]),
-        U_zones=Zones('box', low=[2, 1], up=[4, 3]),
+        D_zones=Zones('box', low=[0, 0], up=[4, 4]),
+        I_zones=Zones('box', low=[0, 0], up=[1, 1]),
+        U_zones=Zones('box', low=[2, 2], up=[4, 3]),
         f=[lambda x, u: -x[0] + x[1] - x[0] ** 2 - x[1] ** 3 + x[0] * u[0],
            lambda x, u: -2 * x[1] - x[0] ** 2 + u[0]],
         u=2,
