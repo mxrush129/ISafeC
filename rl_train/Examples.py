@@ -127,9 +127,9 @@ examples = {
     8: Example(
         n_obs=5,
         u_dim=1,
-        D_zones=Zones('box', low=[-3, -3, -3, -3, -3], up=[3, 3, 3, 3, 3]),
-        I_zones=Zones('box', low=[0.5] * 5, up=[1.5] * 5),
-        U_zones=Zones('box', low=[-2.6] * 5, up=[-1.4] * 5),
+        D_zones=Zones('box', low=[0, 0, 0, 0, 0], up=[3, 3, 3, 3, 3]),
+        I_zones=Zones('box', low=[0.5] * 5, up=[1.1] * 5),
+        U_zones=Zones('box', low=[1.6] * 5, up=[2.5] * 5),
         f=[lambda x, u: -0.1 * x[0] ** 2 - 0.4 * x[0] * x[3] - x[0] + x[1] + 3 * x[2] + 0.5 * x[3],
            lambda x, u: x[1] ** 2 - 0.5 * x[1] * x[4] + x[0] + x[2],
            lambda x, u: 0.5 * x[2] ** 2 + x[0] - x[1] + 2 * x[2] + 0.1 * x[3] - 0.5 * x[4],
@@ -143,6 +143,27 @@ examples = {
         max_episode=1500,
         goal='avoid',
         name='C8'
+    ),
+    9: Example(
+        n_obs=6,
+        u_dim=1,
+        D_zones=Zones('box', low=[0] * 6, up=[2] * 6),
+        I_zones=Zones('box', low=[1.4] * 6, up=[2] * 6),
+        U_zones=Zones('box', low=[0] * 6, up=[0.7] * 6),
+        f=[lambda x, u: x[0] * x[2],
+           lambda x, u: x[0] * x[4],
+           lambda x, u: (x[3] - x[2]) * x[2] - 2 * x[4] ** 2,
+           lambda x, u: -(x[3] - x[2]) ** 2 + (-x[0] ** 2 + x[5] ** 2),
+           lambda x, u: x[1] * x[5] + (x[2] - x[3]) * x[4],
+           lambda x, u: 2 * x[1] * x[4] + u[0]
+           ],
+        u=3,
+        dense=5,
+        units=64,
+        dt=0.005,
+        max_episode=1500,
+        goal='avoid',
+        name='C9'
     ),
 }
 
