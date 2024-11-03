@@ -109,7 +109,7 @@ def train_by_ppo(example: Example, deg=2):
 
 
 if __name__ == '__main__':
-    example = get_example_by_name('C9')
+    example = get_example_by_name('C11')
     return_list = train_by_ppo(example, 2)
 
     episodes_list = list(range(len(return_list)))

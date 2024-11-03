@@ -165,6 +165,55 @@ examples = {
         goal='avoid',
         name='C9'
     ),
+    10: Example(
+        n_obs=7,
+        u_dim=1,  ###mx: [0.86893033 0.36807829 0.55860075 2.75415022 0.22084824 0.08408990.27414744]
+        D_zones=Zones('box', low=np.array([1.2, 1.05, 1.5, 2.4, 1, 0.1, 0.45]),
+                      up=np.array([1.2, 1.05, 1.5, 2.4, 1, 0.1, 0.45]) + 5),
+        I_zones=Zones('box', low=np.array([1.2, 1.05, 1.5, 2.4, 1, 0.1, 0.45]) + 1,
+                      up=np.array([1.2, 1.05, 1.5, 2.4, 1, 0.1, 0.45]) + 2),
+        U_zones=Zones('box', low=np.array([1.2, 1.05, 1.5, 2.4, 1, 0.1, 0.45]) + 4,
+                      up=np.array([1.2, 1.05, 1.5, 2.4, 1, 0.1, 0.45]) + 5),
+        f=[lambda x, u: 1.4 * x[2] - 0.9 * x[0],
+           lambda x, u: 2.5 * x[4] - 1.5 * x[1] + u[0],
+           lambda x, u: 0.6 * x[6] - 0.8 * x[1] * x[2],
+           lambda x, u: 2 - 1.3 * x[2] * x[3],
+           lambda x, u: 0.7 * x[0] - x[3] * x[4],
+           lambda x, u: 0.3 * x[0] - 3.1 * x[5],
+           lambda x, u: 1.8 * x[5] - 1.5 * x[1] * x[6],
+           ],
+        u=0.3,
+        dense=5,
+        units=50,
+        dt=0.01,
+        max_episode=1500,
+        goal='avoid',
+        name='C10'
+    ),
+    11: Example(
+        n_obs=9,
+        u_dim=1,
+        D_zones=Zones('box', low=[0] * 9, up=[3] * 9),
+        I_zones=Zones('box', low=[0] * 9, up=[0.1] * 9),
+        U_zones=Zones('box', low=[1.8] * 9, up=[2] * 9),
+        f=[lambda x, u: 3 * x[2] - x[0] * x[5] + u[0],
+           lambda x, u: x[3] - x[1] * x[5],
+           lambda x, u: x[0] * x[5] - 3 * x[2],
+           lambda x, u: x[1] * x[5] - x[3],
+           lambda x, u: 3 * x[2] + 5 * x[0] - x[4],
+           lambda x, u: 5 * x[4] + 3 * x[2] + x[3] - x[5] * (x[0] + x[1] + 2 * x[7] + 1),
+           lambda x, u: 5 * x[3] + x[1] - 0.5 * x[6],
+           lambda x, u: 5 * x[6] - 2 * x[5] * x[7] + x[8] - 0.2 * x[7],
+           lambda x, u: 2 * x[5] * x[7] - x[8]
+           ],
+        u=3,
+        dense=5,
+        units=30,
+        dt=0.01,
+        max_episode=1500,
+        goal='avoid',
+        name='C11'
+    ),
 }
 
 
