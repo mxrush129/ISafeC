@@ -214,6 +214,34 @@ examples = {
         goal='avoid',
         name='C11'
     ),
+    12: Example(
+        n_obs=12,
+        u_dim=1,
+        D_zones=Zones('box', low=[0] * 12, up=[10] * 12),
+        I_zones=Zones('box', low=[1] * 12, up=[2] * 12),
+        U_zones=Zones('box', low=[8] * 12, up=[9] * 12),
+        f=[lambda x, u: x[3],
+           lambda x, u: x[4],
+           lambda x, u: x[5],
+           lambda x, u: -7253.4927 * x[0] + 1936.3639 * x[10] - 1338.7624 * x[3] + 1333.3333 * x[7],
+           lambda x, u: -1936.3639 * x[9] - 7253.4927 * x[1] - 1338.7624 * x[4] - 1333.3333 * x[6],
+           lambda x, u: -769.2308 * x[2] - 770.2301 * x[5],
+           lambda x, u: x[9],
+           lambda x, u: x[10],
+           lambda x, u: x[11],
+           lambda x, u: 9.81 * x[1],
+           lambda x, u: -9.81 * x[0],
+           lambda x, u: -16.3541 * x[11] + u[0]
+           ],
+
+        u=3,
+        dense=5,
+        units=30,
+        dt=0.01,
+        max_episode=1500,
+        goal='avoid',
+        name='C12'
+    ),
 }
 
 

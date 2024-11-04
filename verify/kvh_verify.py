@@ -4,6 +4,7 @@ import cvxpy as cp
 import numpy as np
 import psutil
 import ray
+import re
 import sympy as sp
 
 from rl_train.Examples import Example, Zones
@@ -246,8 +247,17 @@ class KVH:
         if not isinstance(expression, str):
             expression = str(expression)
 
-        for i, (low, high) in enumerate(interval):
-            expression = expression.replace(f'x{i + 1}', f'({high - low}*x{i + 1}+{low})')
+        # for i, (low, high) in enumerate(interval):
+        #     expression = expression.replace(f'x{i + 1}', f'({high - low}*x{i + 1}+{low})')
+
+        interval = list(interval)
+
+        def replace_function(match):
+            res = match.group()
+            pos = int(res[1:]) - 1
+            return f'({interval[pos][1] - interval[pos][0]}*x{pos + 1}+{interval[pos][0]})'
+
+        expression = re.sub('x\d+', replace_function, expression)
 
         expression = sp.sympify(expression)
         expression = sp.expand(expression)
