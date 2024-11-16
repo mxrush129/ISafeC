@@ -20,7 +20,7 @@ if __name__ == '__main__':
     print(controller)
     opts = {
         'example': ex,
-        'lr': 0.3,
+        'lr': 0.15,
         'batch_size': 500,
         'margin': 1,
         'hidden_neurons': [10],

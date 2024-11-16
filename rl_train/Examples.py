@@ -26,7 +26,6 @@ examples = {
         u_dim=1,
         D_zones=Zones('box', low=[-1, -0.2], up=[0.5, 0.8]),
         I_zones=Zones('box', low=[-0.51, 0.49], up=[-0.49, 0.51]),
-        G_zones=Zones('box', low=[-0.05, -0.05], up=[0.05, 0.05]),
         U_zones=Zones('box', low=[-0.4, 0.2], up=[0.1, 0.35]),
         f=[lambda x, u: x[1],
            lambda x, u: (1 - x[0] ** 2) * x[1] - x[0] + u[0]
