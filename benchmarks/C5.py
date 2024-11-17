@@ -17,15 +17,13 @@ if __name__ == '__main__':
     with open(f'../controller/{ex.name}.txt', 'r', encoding='utf-8') as f:
         controller = f.readline()
 
-    print(controller)
     opts = {
         'example': ex,
-        'lr': 0.03,
-        'batch_size': 200,
-        'margin': 2,
+        'lr': 0.1,
+        'batch_size': 300,
+        'margin': 1,
         'hidden_neurons': [10],
         'activation': ['SKIP']
     }
     config = Config(**opts)
-    main(config, controller, epoch=5, l=4, config_fine=(100, 20, 0.5, 500, 20), adaptive_margin=True)
-    # lr:0.8, bs:400, mg:1, hn:5
+    main(config, controller, epoch=5, l=6, config_fine=(100, 10, 0.5, 500, 10), adaptive_margin=True)

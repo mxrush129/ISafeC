@@ -13,17 +13,19 @@ if __name__ == '__main__':
     torch.cuda.manual_seed(2025)
     np.random.seed(2025)
 
-    ex = get_example_by_name('Academic_3D')
+    ex = get_example_by_name('C2')
     with open(f'../controller/{ex.name}.txt', 'r', encoding='utf-8') as f:
         controller = f.readline()
 
+    print(controller)
     opts = {
         'example': ex,
-        'lr': 0.1,
-        'batch_size': 300,
-        'margin': 1,
-        'hidden_neurons': [10],
+        'lr': 0.7,
+        'batch_size': 400,
+        'margin': 3,
+        'hidden_neurons': [5],
         'activation': ['SKIP']
     }
     config = Config(**opts)
-    main(config, controller, epoch=5, l=6, config_fine=(100, 10, 0.5, 500, 10), adaptive_margin=True)
+    main(config, controller, epoch=5, l=6, config_fine=(100, 20, 0.5, 500, 20), adaptive_margin=True)
+    # lr:0.8, bs:400, mg:1, hn:5

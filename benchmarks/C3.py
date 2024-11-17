@@ -13,21 +13,19 @@ if __name__ == '__main__':
     torch.cuda.manual_seed(2025)
     np.random.seed(2025)
 
-    ex = get_example_by_name('Oscillator')
+    ex = get_example_by_name('C3')
     with open(f'../controller/{ex.name}.txt', 'r', encoding='utf-8') as f:
         controller = f.readline()
 
     print(controller)
     opts = {
         'example': ex,
-        'lr': 0.2,
-        'batch_size': 300,
-        'margin': 1,
+        'lr': 0.03,
+        'batch_size': 200,
+        'margin': 2,
         'hidden_neurons': [10],
         'activation': ['SKIP']
     }
     config = Config(**opts)
-    main(config, controller, epoch=5, l=4, config_fine=(100, 10, 0.5, 500, 1))
-
-# lr:0.2, bs:100
-# lr:0.2, bs:500
+    main(config, controller, epoch=5, l=4, config_fine=(100, 20, 0.5, 500, 20), adaptive_margin=True)
+    # lr:0.8, bs:400, mg:1, hn:5

@@ -20,12 +20,11 @@ if __name__ == '__main__':
     print(controller)
     opts = {
         'example': ex,
-        'lr': 0.06,
-        'batch_size': 300,
+        'lr': 0.15,
+        'batch_size': 500,
         'margin': 1,
         'hidden_neurons': [10],
         'activation': ['SKIP']
     }
     config = Config(**opts)
-    main(config, controller, epoch=5, l=4, config_fine=(100, 20, 0.5, 500, 20), adaptive_margin=True)
-# lr:0.01 -> fine tune
+    main(config, controller, epoch=5, l=6, config_fine=(100, 20, 0.5, 500, 20), adaptive_margin=True)
