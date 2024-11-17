@@ -1,10 +1,8 @@
+import re
 from functools import reduce
 
 import cvxpy as cp
 import numpy as np
-import psutil
-import ray
-import re
 import sympy as sp
 
 from rl_train.Examples import Example, Zones
@@ -269,13 +267,3 @@ class KVH:
             dic[str(item[1])] = item[0]
 
         return dic
-
-
-if __name__ == '__main__':
-    from rl_train.Examples import get_example_by_id
-
-    ex = get_example_by_id(1)
-    barr = '-0.0409308970557709*x1**2 - 0.496407855823947*x1*x2 - 2.43038707481363*x1 - 0.929325193120941*x2**2 - 3.61419192339084*x2 + 2.00045181375048'
-    kvh = KVH(ex, 2, 2)
-    kvh.update_barrier(barr)
-    print(kvh.verify_all())

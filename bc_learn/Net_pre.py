@@ -1,7 +1,7 @@
+import numpy as np
+import sympy as sp
 import torch
 import torch.nn as nn
-import sympy as sp
-import numpy as np
 from torch.func import jacrev
 
 from bc_learn.Activation import get_activation

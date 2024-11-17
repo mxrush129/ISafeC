@@ -1,7 +1,8 @@
-import torch
-import torch.nn as nn
 import numpy as np
 import sympy as sp
+import torch
+import torch.nn as nn
+
 from bc_learn.Config import Config
 
 

@@ -3,8 +3,8 @@ import sympy as sp
 import torch
 
 from bc_learn.Config import Config
-from rl_train.Examples import Example
 from rl_train.Env import Zones
+from rl_train.Examples import Example
 
 
 class Data:

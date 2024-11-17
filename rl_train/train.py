@@ -7,7 +7,6 @@ from sklearn.preprocessing import PolynomialFeatures
 
 from rl_train.Env import Env
 from rl_train.Examples import get_example_by_name, Example
-from rl_train.Plot import plot
 from rl_train.ppo import PPO
 from rl_train.share import *
 
@@ -99,11 +98,11 @@ def train_by_ppo(example: Example, deg=2):
         agent.update(transition_dict)
 
         print(f'episode:{i_episode + 1},reward:{episode_return},step:{len(state_list)}')
-        if i_episode % 20 == 0:
-            state_list = np.array(state_list)
-            x = state_list[:, :1]
-            y = state_list[:, 1:2]
-            plot(env, x, y)
+        # if i_episode % 20 == 0:
+        #     state_list = np.array(state_list)
+        #     x = state_list[:, :1]
+        #     y = state_list[:, 1:2]
+        #     plot(env, x, y)
     fit(env, agent, deg)
     return return_list
 
