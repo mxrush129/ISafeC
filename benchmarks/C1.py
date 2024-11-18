@@ -3,6 +3,7 @@ import sys
 sys.path.append('../')
 import numpy as np
 import torch
+import time
 
 from bc_learn.Config import Config
 from bc_learn.main import main
@@ -27,7 +28,10 @@ if __name__ == '__main__':
         'activation': ['SKIP']
     }
     config = Config(**opts)
+    begin = time.time()
     main(config, controller, epoch=5, l=4, config_fine=(100, 10, 0.5, 500, 1))
+    end = time.time()
+    print(f'Total time: {end - begin}s')
 
 # lr:0.2, bs:100
 # lr:0.2, bs:500
