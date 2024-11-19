@@ -39,22 +39,6 @@ class Draw:
         # plt.savefig(f'picture/{self.ex.name}_2d.png', dpi=1000, bbox_inches='tight')
         plt.show()
 
-    def draw_3d(self):
-        fig = plt.figure()
-        ax = fig.add_subplot(projection='3d')
-        self.plot_barrier_3d(ax, self.ex.l1, self.b1, 'gold')
-
-        init = self.draw_zone(self.ex.I, color='g', label='init')
-        ax.add_patch(init)
-        art3d.pathpatch_2d_to_3d(init, z=0, zdir="z")
-
-        unsafe = self.draw_zone(self.ex.U, color='r', label='unsafe')
-        ax.add_patch(unsafe)
-        art3d.pathpatch_2d_to_3d(unsafe, z=0, zdir="z")
-        # ax.view_init(elev=-164, azim=165)
-        plt.savefig(f'picture/{self.ex.name}_3d.png', dpi=1000, bbox_inches='tight')
-        plt.show()
-
     def plot_barrier_3d(self, ax, zone, b, color):
         low, up = zone.low, zone.up
         x = np.linspace(low[0], up[0], 100)
