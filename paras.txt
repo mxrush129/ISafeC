@@ -1,0 +1,18 @@
+Controller Training Hyperparameters
+lr: 1e-4
+discount factor: 0.95
+batch size: 150
+epochs: 10
+ppo clipping epsilon: 0.2
+valu function lr: 5e-3
+regularization coefficients:\
+Entropy coefficient: \
+Generalized Advantage Estimator:\
+
+Barrier Certificate Training Hyperparameters
+lr: 0.01
+batch size: 500
+epochs: 5
+weight initialization:\
+number of samples:\
+perturbation size:\

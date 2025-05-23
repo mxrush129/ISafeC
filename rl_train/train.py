@@ -1,5 +1,8 @@
 import re
-
+import sys, os
+from pathlib import Path
+proj_path = str(Path(__file__).resolve().parent.parent)
+sys.path.append(proj_path)
 import matplotlib.pyplot as plt
 import sympy as sp
 from sklearn.linear_model import Ridge
@@ -50,7 +53,7 @@ def fit(env, agent, degree):
     temp = sp.sympify(s[1:])
     u = sp.lambdify(x, temp)(*x_)
     print(f'controller:{u}')
-    with open(f'../controller/{env.name}.txt', 'w', encoding='utf-8') as f:
+    with open(f'{proj_path}/controller/{env.name}.txt', 'w', encoding='utf-8') as f:
         f.write(f'{u}')
     return u
 
@@ -108,7 +111,7 @@ def train_by_ppo(example: Example, deg=2):
 
 
 if __name__ == '__main__':
-    example = get_example_by_name('C12')
+    example = get_example_by_name('nonpoly6')
     return_list = train_by_ppo(example, 2)
 
     episodes_list = list(range(len(return_list)))

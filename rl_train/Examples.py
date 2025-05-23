@@ -4,6 +4,30 @@ from rl_train.Env import Zones, Example, Env
 
 pi = np.pi
 
+class F():
+    def __init__(self):
+        pass
+    def f1(self,x):
+        #1/(1+sinx^2):
+        return -9.49845082e-01*x**2+9.19717026e-01*x**4-4.06137871e-01*x**6+0.99899106
+    def f2(self,x):
+        #sinx/(1+sinx^2):
+        return  9.78842244e-01*x-8.87441593e-01*x**3+4.35351792e-01*x**5
+    def f3(self,x):
+        #sin(x) * cos(x) / (1 + sin(x) ** 2): \
+        return  9.70088125e-01 * x - 1.27188818 * x ** 3 + 6.16181488e-01 * x ** 5
+    def f4(self,x):
+        #cosx / (1 + sinx ^ 2):
+        return -1.42907660e+00 * x ** 2 + 1.29010139e+00 * x ** 4 - 5.75414531e-01 * x ** 6 + 0.99857329
+    def f5(self,x):
+        #sinx
+        return 9.87855464e-01*x-1.55267355e-01*x**3+5.64266597e-03*x**5
+    def f6(self,x):
+        #cosx
+        return -4.99998744e-01*x**2+4.16558586e-02*x**4-1.35953076e-03*x**6+0.99999998
+
+fun=F()
+
 examples = {
     1: Example(
         n_obs=2,
@@ -241,6 +265,114 @@ examples = {
         goal='avoid',
         name='C12'
     ),
+    13: Example(
+        n_obs=2,
+        u_dim=1,
+        D_zones=Zones('box', low=[-1] * 2, up=[1] * 2),
+        I_zones=Zones('box', low=[-1] * 2, up=[-0.5] * 2),
+        U_zones=Zones('box', low=[0.5] * 2, up=[1] * 2),
+        f=[
+            lambda x, u: -0.1576*x[1]**3  + 0.9981*x[1], 
+            lambda x, u: -u[0]
+        ],
+        u=3,
+        dense=4,
+        units=64,
+        dt=0.01,
+        max_episode=1500,
+        goal='avoid',
+        name='nonpoly1-dubin-car'
+    ),
+    14: Example(
+        n_obs=2,
+        u_dim=1,
+        D_zones=Zones('box', low=[-1] * 2, up=[1] * 2),
+        I_zones=Zones('box', low=[-1] * 2, up=[-0.5] * 2),
+        U_zones=Zones('box', low=[0.5] * 2,up=[1] * 2),
+        f=[
+            lambda x, u: x[1],                          # ẋ₁ = α̇ = x[1]
+            lambda x, u: -10*(-0.1576*x[0]**3  + 0.9981*x[0]) - 0.1*x[1] + u[0]  # ẋ₂ = α̈ = -g/l*sin(α) - d/(ml²)*α̇ + u/(ml²)
+        ],
+        u=3,
+        dense=5,
+        units=30,
+        dt=0.01,
+        max_episode=1500,
+        goal='avoid',
+        name='nonpoly2-pendulum'    
+    ),
+    15: Example(
+        n_obs=3,
+        u_dim=1,
+        D_zones=Zones('box', low=[-2.2]*3, up=[2.2]*3),
+        I_zones=Zones('box', low=[-0.2]*3, up=[0.2]*3),
+        U_zones=Zones('box', low=[1]*3, up=[2]*3),  
+        f=[
+            lambda x, u: 30*(-0.1576*x[0]**3  + 0.9981*x[0]) + 15*u[0]*(-4.99998744e-01*x[0]**2+4.16558586e-02*x[0]**4-1.35953076e-03*x[0]**6+0.99999998),  # ẋ₁ = 30sin(x₁) + 15ũcos(x₁)
+            lambda x, u: -20*(-4.99998744e-01*x[2]**2+4.16558586e-02*x[2]**4-1.35953076e-03*x[2]**6+0.99999998)*(-0.1576*x[2]**3  + 0.9981*x[2]) + u[0]*(-4.99998744e-01*x[2]**2+4.16558586e-02*x[2]**4-1.35953076e-03*x[2]**6+0.99999998)**2,  # ẋ₂ = -20cos(x₃)sin(x₃) + ũcos²(x₃)
+            lambda x, u: x[1]  # ẋ₃ = x₂ (assuming third state is integrated from second)
+        ],
+        u=3.0,  # Control input bound (assuming normalized ũ ∈ [-1,1])
+        dense=4,
+        units=64,
+        dt=0.01,
+        max_episode=1500,
+        goal='avoid',  # Control objective (avoid unsafe set)
+        name='nonpoly3-bicycle-steering'
+    ),
+    16: Example(
+            n_obs=2,
+            u_dim=1,
+            D_zones = Zones('box', low=[-1, -1], up=[1, 1]),
+            I_zones = Zones('box', low=[0.3]*2, up=[1]*2),
+            U_zones = Zones('box', low=[-1, -1], up=[0, 0]),
+            f=[lambda x, u: 6 * fun.f5(x[1]),
+               lambda x, u: 6 * u[0] - (fun.f6(x[1]) / (1 - x[0]))],
+            u=2,
+            dense=4,
+            units=64,
+            dt=0.01,
+            max_episode=1500,
+            goal='avoid',  # Control objective (avoid unsafe set)
+            name='nonpoly4-vehicle-path'
+        ),#Vehicle path tracking
+    17: Example(
+            n_obs=2,
+            u_dim=1,
+            D_zones = Zones('box', low=[-1, -1], up=[1, 1]),
+            I_zones = Zones('box', low=[0.3]*2, up=[1]*2),
+            U_zones = Zones('box', low=[-1, -1], up=[0, 0]),
+            f=[lambda x, u: -0.1576*x[1]**3  + 0.9981*x[1], # sin(x2)
+               lambda x, u: -710 - u[0]
+               ],
+            u=2,
+            dense=4,
+            units=64,
+            dt=0.01,
+            max_episode=1500,
+            goal='avoid',
+            name='nonpoly5'
+        ),
+    18: Example(
+        n_obs=5,
+        u_dim=1,
+        D_zones=Zones('box', low=[-1] * 5, up=[1] * 5),
+        I_zones=Zones('box', low=[0.9] * 5, up=[1] * 5),
+        U_zones=Zones('box', low=[-1] * 5, up=[0.8] * 5),
+        f=[lambda x, u: -x[3] * (-0.1576*x[2]**3  + 0.9981*x[2]),
+           lambda x, u: x[3] * (-4.99998744e-01*x[2]**2+4.16558586e-02*x[2]**4-1.35953076e-03*x[2]**6+0.99999998) - x[4],
+           lambda x, u: -u[0],
+           lambda x, u: 0,
+           lambda x, u: 0
+           ],
+        u=2,
+        dense=4,
+        units=64,
+        dt=0.01,
+        max_episode=1500,
+        goal='avoid',
+        name='nonpoly6'
+    )
 }
 
 

@@ -2,7 +2,7 @@ import numpy as np
 import sympy as sp
 import torch
 import torch.nn as nn
-
+import sympy as sp
 from rl_train.Examples import Example
 from verify.kvh_verify import KVH
 
@@ -15,6 +15,7 @@ class FinetuneNet(nn.Module):
         self.v = nn.Parameter(torch.Tensor(v).reshape(-1, 1))
         self.lam = nn.Parameter(torch.Tensor([mul]))
         self.lam_sp = kvh.lam_sp_fine
+        
         self.part_der = part_der
         self.f = f
 
@@ -63,10 +64,13 @@ class FinetuneNet(nn.Module):
         return torch.stack([f(*xt) for f in self.part_der], dim=1)
 
     def fun(self, x):
+        print(type(x), x)
+        x3 = sp.Symbol('x3')
+        x.append(x3)
         return [f(*x) for f in self.lam_sp]
 
     def fun_(self, x):
-        xt = x.T
+        xt = torch.cat((x.T, torch.zeros(1, x.shape[0]).to(self.device)), dim=0)
         ans = [f(*xt) for f in self.lam_sp]
         ans[0] = torch.ones(len(xt[0])).to(self.device)
         return torch.stack(ans, dim=1)
